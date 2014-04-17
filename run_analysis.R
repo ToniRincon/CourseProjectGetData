@@ -7,7 +7,7 @@ run_analysis <- function() {
   features_labels$feature = gsub("[,-]",".",gsub("[()]","",features_labels$feature))
   
   # read activity_labels.txt
-  activity_labels = read.table(file="activity_labels.txt", col.names=c("activity_id","activity"))
+  activities_labels = read.table(file="activity_labels.txt", col.names=c("activity_id","activity"))
   
   # read subject_train.txt and subject_test.txt to be combined
   subjects_train = read.table(file="train/subject_train.txt", col.names=c("subject"))
@@ -36,12 +36,16 @@ run_analysis <- function() {
   features = features[,features_labels]
   
   # merge activity names and activity labels deleting activity_id
-  # combine subjects, activities and features
-  activities = merge(activities,activity_labels)
+  activities$activity_order = 1:nrow(activities)
+  activities = merge(activities,activities_labels)
+  activities = activities[order(activities$activity_order),]
   activities$activity_id = NULL
-  features = cbind(subjects,activities,features)
+  activities$activity_order = NULL
+  
+  # combine subjects, activities and features
+  data_raw = cbind(subjects,activities,features)
   
   # finally melt variables using subject and activity, and aggrefate using mean
-  features_melted = melt(features,id=c("subject","activity"))
-  features_tidy = dcast(features_melted,subject+activity~variable,mean)
+  data_melted = melt(data_raw,id=c("subject","activity"))
+  data_tidy = dcast(data_melted,subject+activity~variable,mean)
 }  

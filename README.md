@@ -24,7 +24,7 @@ CodeBook.md describes the variables, the data, and transformations performed to 
 
 6. features_labels is filtered using grep to contain only features names refered to mean and std. features is filtered using features_labels reducing the number of columns
 
-7. activities and activities_labels are merged using activity_id common in both data frames, column activity_id is deleted
+7. activities and activities_labels are merged using activity_id common in both data frames, column activity_id is deleted, assuring to mantain the order in activities
 
 8. subjects, activities (containing activity names) and features (containing mean and std features) are row combined into a data frame data_raw
 
