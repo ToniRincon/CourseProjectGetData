@@ -32,8 +32,8 @@ run_analysis <- function() {
   rm(activities_test)
   
   # select only -mean() and -std() features
-  features_labels=features_labels[grep("\\.(mean|std)\\b",features_labels$feature),"feature"]
-  features = features[,features_labels]
+  features_labels=features_labels[grep("\\.(mean|std)\\b",features_labels$feature),]
+  features = features[,features_labels$feature]
   
   # merge activity names and activity labels deleting activity_id
   activities$activity_order = 1:nrow(activities)
